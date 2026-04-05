@@ -316,35 +316,43 @@
   height: auto;
 }
 
-/* html5-qrcode overrides */
+/* html5-qrcode overrides — suppresses built-in UI, we draw our own */
 #html5-qrcode-button-camera-permission,
 #html5-qrcode-button-camera-start,
 #html5-qrcode-button-camera-stop,
-#html5-qrcode-anchor-scan-type-change {
+#html5-qrcode-anchor-scan-type-change,
+#qr-reader-div__dashboard,
+#qr-reader-div__dashboard_section,
+#qr-reader-div__dashboard_section_swaplink {
   display: none !important;
 }
 
-#qr-reader {
+#qr-reader-div {
   border: none !important;
   padding: 0 !important;
   width: 100% !important;
+  height: 100% !important;
 }
 
-#qr-reader video {
-  border-radius: 0.75rem;
+#qr-reader-div video {
   width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
 }
 
-#qr-reader__scan_region {
-  border-radius: 0.75rem;
-  overflow: hidden;
+#qr-reader-div__scan_region {
   background: transparent !important;
+  border: none !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-#qr-reader__dashboard {
+#qr-reader-div img {
   display: none !important;
 }
 
-#qr-reader img {
-  display: none !important;
+/* iOS safe area for bottom tab bar */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
