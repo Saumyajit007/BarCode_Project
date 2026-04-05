@@ -4,15 +4,7 @@ import { Html5Qrcode } from "html5-qrcode";
 
 /* ─── Types ─────────────────────────────────────────────── */
 
-type BarcodeFormat =
-  | "CODE128"
-  | "EAN13"
-  | "EAN8"
-  | "UPC"
-  | "CODE39"
-  | "ITF14"
-  | "MSI"
-  | "pharmacode";
+type BarcodeFormat = "CODE128" | "EAN13" | "EAN8";
 
 interface FormatOption {
   value: BarcodeFormat;
@@ -48,43 +40,6 @@ const FORMAT_OPTIONS: FormatOption[] = [
     description: "8 digits (small products)",
     numericOnly: true,
     fixedLength: 8,
-  },
-  {
-    value: "UPC",
-    label: "UPC-A",
-    example: "012345678905",
-    description: "12 digits (North America)",
-    numericOnly: true,
-    fixedLength: 12,
-  },
-  {
-    value: "CODE39",
-    label: "CODE 39",
-    example: "CODE-39",
-    description: "Alphanumeric + special chars",
-    numericOnly: false,
-  },
-  {
-    value: "ITF14",
-    label: "ITF-14",
-    example: "12345678901231",
-    description: "14 digits (shipping containers)",
-    numericOnly: true,
-    fixedLength: 14,
-  },
-  {
-    value: "MSI",
-    label: "MSI",
-    example: "123456789",
-    description: "Numeric (inventory tracking)",
-    numericOnly: true,
-  },
-  {
-    value: "pharmacode",
-    label: "Pharmacode",
-    example: "1234",
-    description: "Numeric, 3-131072 range",
-    numericOnly: true,
   },
 ];
 
@@ -486,7 +441,7 @@ export default function Home() {
                 <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Barcode Format
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {FORMAT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
