@@ -16,6 +16,14 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+### Barcode Studio (`artifacts/barcode-studio`)
+- React + Vite frontend-only app (no backend needed)
+- Preview path: `/`
+- Libraries: `jsbarcode` (barcode generation), `html5-qrcode` (camera scanning), `@types/jsbarcode`
+- Features: 8 barcode formats, SVG export, live camera scanning, copy-to-clipboard, dark mode
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
