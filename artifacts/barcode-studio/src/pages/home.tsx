@@ -206,6 +206,7 @@ export default function Home() {
   const [generatorError, setGeneratorError] = useState<string | null>(null);
   const [generatedValue, setGeneratedValue] = useState("");
   const [copiedGenerated, setCopiedGenerated] = useState(false);
+  const [showText, setShowText] = useState(true);
   const svgRef = useRef<SVGSVGElement>(null);
 
   /* ── Scanner state ── */
@@ -250,7 +251,7 @@ export default function Home() {
         background: "transparent",
         width: 2.2,
         height: 90,
-        displayValue: true,
+        displayValue: showText,
         fontOptions: "500",
         font: "Inter, system-ui, sans-serif",
         fontSize: 14,
@@ -271,11 +272,11 @@ export default function Home() {
       );
       setBarcodeGenerated(false);
     }
-  }, [inputValue, selectedFormat, darkMode]);
+  }, [inputValue, selectedFormat, darkMode, showText]);
 
-  /* Regenerate on dark-mode toggle if a barcode is already showing */
+  /* Regenerate when dark-mode or showText toggles while a barcode is already showing */
   useEffect(() => {
-    if (barcodeGenerated && svgRef.current) {
+    if (barcodeGenerated && svgRef.current && generatedValue) {
       try {
         JsBarcode(svgRef.current, generatedValue, {
           format: selectedFormat,
@@ -283,7 +284,7 @@ export default function Home() {
           background: "transparent",
           width: 2.2,
           height: 90,
-          displayValue: true,
+          displayValue: showText,
           fontOptions: "500",
           font: "Inter, system-ui, sans-serif",
           fontSize: 14,
@@ -292,7 +293,7 @@ export default function Home() {
         });
       } catch (_) { /* ignore */ }
     }
-  }, [darkMode]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [darkMode, showText]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const downloadSVG = useCallback(() => {
     if (!svgRef.current) return;
@@ -548,6 +549,28 @@ export default function Home() {
                   </div>
                 )}
               </div>
+
+              {/* Show text toggle */}
+              <label className="flex items-center gap-3 cursor-pointer select-none group">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={showText}
+                    onChange={(e) => setShowText(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-10 h-5 rounded-full border-2 border-border bg-muted transition-colors duration-150
+                    peer-checked:bg-primary peer-checked:border-primary" />
+                  <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-all duration-150
+                    peer-checked:translate-x-5" />
+                </div>
+                <div>
+                  <span className="text-sm font-medium">Show text label</span>
+                  <span className="text-xs text-muted-foreground ml-2">
+                    {showText ? "Value printed below barcode" : "Barcode only, no text"}
+                  </span>
+                </div>
+              </label>
 
               {/* Generate button */}
               <button
