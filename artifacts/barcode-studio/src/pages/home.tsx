@@ -578,23 +578,26 @@ export default function Home() {
                   )}
                 </div>
 
-                {/* SVG container */}
+                {/* SVG container — SVG is always mounted so svgRef is always valid */}
                 <div className={`
-                  flex items-center justify-center min-h-[140px] rounded-xl border-2 border-dashed transition-colors
+                  relative min-h-[140px] rounded-xl border-2 border-dashed transition-colors overflow-hidden
                   ${barcodeGenerated ? "border-border bg-background/60" : "border-border/30 bg-muted/20"}
                 `}>
-                  {!barcodeGenerated ? (
+                  {/* Placeholder overlay — visible only before generation */}
+                  <div className={`
+                    absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-200
+                    ${barcodeGenerated ? "opacity-0" : "opacity-100"}
+                  `}>
                     <div className="text-center py-6">
                       <BarCodeIcon className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
                       <p className="text-xs text-muted-foreground/60">Your barcode will appear here</p>
                     </div>
-                  ) : (
-                    <div id="barcode-svg" className="w-full px-4 py-2">
-                      <svg ref={svgRef} className="w-full" />
-                    </div>
-                  )}
-                  {/* Hidden SVG for when barcode not shown yet */}
-                  {!barcodeGenerated && <svg ref={svgRef} className="hidden" />}
+                  </div>
+
+                  {/* SVG is always in DOM — ref never detaches */}
+                  <div className={`w-full px-4 py-2 transition-opacity duration-200 ${barcodeGenerated ? "opacity-100" : "opacity-0"}`}>
+                    <svg ref={svgRef} className="w-full" />
+                  </div>
                 </div>
 
                 {/* Action buttons */}
